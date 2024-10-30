@@ -11,49 +11,28 @@ const UserSchema = new Schema({
     email: {
         type: String,
         trim: true,
-        lowercase: true // Optional: Normalize emails to lowercase
+        lowercase: true
     },
-    user_name: {
-        type: String,
-    },
-    phone: {
-        type: String,
-        unique: true,
-        trim: true,
-        required: true
-    },
+  
     password: {
         type: String,
-        required: true // Ensure password is required
+        required: true 
     },
-    status: {
-        type: Number,
-        default: 0
-    },
+    
     token: {
         type: String,
     },
-    last_login: {
-        type: Date,
-        default: null
-    },
-    extra_detail: {
-        type: String,
-    },
-    type: {
-        type: Number,
-        default: 0
-    },
+  
+   
     allowed_urls: {
         type: [String], // Using an array of strings
         default: []
-    },
-    picture: String,
-    create_date: {
-        type: Date,
-        default: Date.now
     }
-});
+},
+{
+    timestamps:true
+}
+);
 
 // Schema method to compare password
 UserSchema.methods.comparePassword = async function (passwords) {

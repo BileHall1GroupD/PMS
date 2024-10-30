@@ -1,9 +1,11 @@
 import express from 'express';
 import userRoutes from './routes/User.js'; 
 import { connectDb } from './config/Db.js';
+import cros from 'cors'
 
 const port = 3000;
 const app = express();
+app.use(cros());
 
 // Middleware to parse JSON bodies
 app.use(express.json());

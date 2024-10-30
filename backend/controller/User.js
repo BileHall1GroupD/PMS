@@ -1,48 +1,41 @@
-import User from '../model/User.js'; 
+import User from '../model/User.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-
-const JWT_SECRET = 'your_jwt_secret_key_here';
-
+const JWT_SECRET = process.env.JWT_SECRET || 'your_jwt_secret_key_here';
 
 export const registerUser = async (req, res) => {
     try {
-        const { name, email, user_name, phone, password } = req.body;
+        const { name, email, password } = req.body;
 
-        
-        const existingUser = await User.findOne({ $or: [{ email }, { phone }] });
+        // Check for existing user by email
+        const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ message: 'User already exists with this email or phone.' });
+            return res.status(400).json({ message: 'User already exists with this email.' });
         }
-
-        // Hash the password
-        const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create a new user
         const newUser = new User({
             name,
             email,
-            user_name,
-            phone,
-            password: hashedPassword
+            password 
         });
 
-        // Save the user to the database
+        // Save 
         await newUser.save();
         res.status(201).json({ message: 'User registered successfully' });
     } catch (error) {
+        console.error('Error in registerUser:', error);
         res.status(500).json({ message: 'Server error', error });
     }
 };
 
-// Login a user
 export const loginUser = async (req, res) => {
     try {
-        const { phone, password } = req.body;
+        const { email, password } = req.body;
 
-        // Find the user by phone
-        const user = await User.findOne({ phone });
+        // Find the user by email
+        const user = await User.findOne({ email });
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
@@ -59,6 +52,7 @@ export const loginUser = async (req, res) => {
         // Send response with token
         res.status(200).json({ message: 'Login successful', token });
     } catch (error) {
+        console.error('Error in loginUser:', error);
         res.status(500).json({ message: 'Server error', error });
     }
 };

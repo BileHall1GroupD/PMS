@@ -39,3 +39,6 @@ const propertSchema = new mongoose.Schema(
         timestamps:true
     }
 );
+
+const Propert = mongoose.model('properts',propertSchema)
+export default Propert
