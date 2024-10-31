@@ -15,7 +15,7 @@ export default function Register() {
             await axios.post('http://localhost:3000/api/register', { name, email, password });
             alert('User registered successfully');
             clearForm();
-            navigate('/');
+            navigate('/Home');
         } catch (error) {
             const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
             alert(errorMessage);

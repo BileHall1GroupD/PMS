@@ -1,44 +1,24 @@
 import mongoose from "mongoose";
 
-const propertSchema = new mongoose.Schema(
-    {
-    name:{
-        type:string,
-        required:true
-       },
-       Desc:{
-        type:string,
-        required:true
-       },
-       location:{
-        type:string,
-        required:true
-       },
-       square_footage:{
-        type:String,
-        required:true
-       },
-       bedrooms:{
-        type:Number,
-        required:true
-       },
-       bethrooms:{
-        type:Number,
-        required:true
-       },
-       features:{
-        type:String,
-        required:true
-       },
-       image_url:{
-        type:String,
-        required:true
-       }
-    },
-    {
-        timestamps:true
-    }
+// Property schema definition
+const propertySchema = new mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    location: { type: String, required: true },
+    square_footage: { type: String, required: true },
+    bedrooms: { type: Number, required: true },
+    bathrooms: { type: Number, required: true },
+    features: { type: String, required: true },
+    image_url: { type: String, required: true },
+    type: { type: String, required: true, enum: ['House', 'Apartment', 'Commercial'] },
+    city: { type: String, required: true },
+    neighborhood: { type: String, required: false },
+  },
+  {
+    timestamps: true,
+  }
 );
 
-const Propert = mongoose.model('properts',propertSchema)
-export default Propert
+const Property = mongoose.model('Property', propertySchema);
+export default Property;
